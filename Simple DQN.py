@@ -14,8 +14,7 @@ class GridEnv:
         self.goal_position = [size-1, size-1] # 목표 위치 (우측 하단)
         self.done = False
         self.state = self.reset() #초기 상태
-        print("self.state ",self.state )
-
+        
     def reset(self):
         self.agent_position = [0, 0]  # 에이전트 초기 위치
         self.done = False
@@ -77,12 +76,8 @@ class DQNAgent:
     def act(self, state):
         if random.uniform(0,1) < self.epsilon:
             return random.choice([0, 1, 2, 3]) #랜덤 행동
-        print('b state:', state)
         state = torch.tensor(state, dtype = torch.float32).unsqueeze(0) # 상태 텐서로 변환
-        print('a state:', state)
         q_values = self.model(state)
-        print('q_values:', q_values)
-        print("action",torch.argmax(q_values).item())
         return torch.argmax(q_values).item()  # 가장 큰 Q-값을 가진 행동 반환
 
     def remember(self, state, action, reward, next_state, done):
